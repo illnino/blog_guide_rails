@@ -10,6 +10,11 @@
   <%= @post.text %>
 </p>
 
+<p>
+	<b>User:</b>
+	<%= User.find_by_id(@post.user_id).email %>
+</p>
+
 <h2>Comments</h2>
 <% @post.comments.each do |c| %>
 	<p><em>Comment: </em><%= c.text %></p>
