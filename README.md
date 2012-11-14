@@ -31,6 +31,11 @@ with the additional "=" sign, it will write out a line with the whole record
 ## 6. has_many
 has_many :comment[s]()
 
+## 7. rails console reload
+when a model is updated (migrated), you need to reload console 
+	
+	1.9.3p194 :001 > reload!
+
 ***
 
 
@@ -76,7 +81,60 @@ add [has_many]() to model/User.rb
 	user = User.first
 	user.update_attributes(:user_id => "1")
 
+# Auther of Post
+PostsController create 中加入
 
+	@post.user_id = current_user.id	
+
+爲@post中user_id賦值，否則單憑form_for中的參數，無法爲之賦值，進而無法判斷該post屬於誰
+  
+    def create
+    	@post = Post.new(params[:post])
+    	@post.user_id = current_user.id
+    	respond_to do |format|
+      	if @post.save
+        	format.html { redirect_to @post, notice: 'Post was successfully created.' }
+        	format.json { render json: @post, status: :created, location: @post }
+      	else
+        	format.html { render action: "new" }
+        	format.json { render json: @post.errors, status: :unprocessable_entity }
+      	end
+	end
+
+stackflow中有文說在PostsController的new中使用
+
+	@post = current_user.posts.build
+
+	# replace 
+	@post = Post.new
+	
+試驗失敗，估計是create中又用到
+	
+	@post= Post.new(params[:post])
+@post 被覆蓋了
+
+
+# Active record find method
+## if model has property - name
+	Post.find_by_name
+	
+	Post.where(:name => "nino")
+	
+## scope 
+	class Post < ActiveRecord::Base
+		scope :nino, where("name = ?", "nino")
+		scope :published, lambda { where("published_at <= ?", Time.zone.now)}
+	end
+  
+#Git
+## Unmodify a modified file
+ !important - your file is back to the last commit and any new update never be found
+ 	
+	git checkout -- <your file>
+	git checkout -- app/controller/posts_controller.rb
+  
+  
+  
 ## 4. Check ability
 	if user.has_role? :admin
 		can :manage, :all
