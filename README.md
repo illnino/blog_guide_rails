@@ -90,6 +90,34 @@ add [has_many]() to model/User.rb
 	user = User.first
 	user.update_attributes(:user_id => "1")
 
+## 5. Role name
+	rails c
+	
+	u = User.first
+	u.roles.first.name
+	
+	# In rails console you could do that
+	# However, in view you cant. 
+	
+	# Query in view doesnt have cache
+	# http://blog.xdite.net/posts/2012/11/20/rubyconf-china-2012-ten-slow-things-you-dont-know/
+	
+	in user.rb
+	
+	# add method
+
+	def my_role
+		self.roles.map { |r| p r.try(:name) }
+	end
+
+	in view files
+	
+	<% @users.each do |u| %>
+		<%= u.my_role %>
+	<% end %>	
+	
+	
+
 # Auther of Post
 PostsController create 中加入
 
