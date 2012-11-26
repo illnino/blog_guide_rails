@@ -1,8 +1,8 @@
 <h1>Lists of Users</h1>
 <% @users.each do |u| %>
 	<li>
-		<%= link_to u.email, user_path(u) %>
+		<%= link_to u.email, u %>
 	</li>
 	<dt><%= u.email %></dt>
-	<dd><%= u.roles.first.name %></dd>
+	<%= u.my_role %>
 <% end %>

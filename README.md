@@ -36,6 +36,15 @@ when a model is updated (migrated), you need to reload console
 	
 	1.9.3p194 :001 > reload!
 
+## 8. link_to post
+	<%= link_to 'my link', post %>
+	
+	# post is enough, no need post_path(post)
+	
+## 9. Destroy
+	<%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?'} %>
+
+
 ***
 
 

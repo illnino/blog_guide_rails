@@ -1,4 +1,4 @@
-<h1>Listing posts</h1>
+<!-- <h1>Listing posts</h1>
 
 <table class="table">
   <tr>
@@ -22,4 +22,42 @@
 
 <br />
 
-<%= link_to 'New Post', new_post_path %>
+
+ -->
+
+<div class="row">
+  <div class="span12">
+    <h1>Nino's blog</h1>
+  </div>
+
+  <% @posts.each do |post|  %>
+      <div class="span12">
+        <h2><%= link_to post.title, post %></h2>
+      </div>
+      <div class="span12">
+        <h6><%= time_ago_in_words(post.created_at) %></h6>
+      </div>
+      <div class="span12">
+        <div><%= post.text %></div>
+      </div>
+      <div class="span12">
+        <% if user_signed_in? %>
+          <% if current_user.id = post.user_id %>
+            <%= link_to 'Edit', edit_post_path(post) %>  |
+          <% end %>
+          <% if current_user.has_role? :admin %>
+            <%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?'} %>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="span12">
+        <hr>
+      </div>  
+  <% end %>
+  <div class="span12">
+    <%= link_to 'New Post', new_post_path %>
+  </div>
+
+</div>
+
+
